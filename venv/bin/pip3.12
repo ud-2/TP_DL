@@ -1,4 +1,4 @@
-#!/home/jordan/school/ml/tp1_dl/venv/bin/python3
+#!/home/jordan/school/ml/tp_dl/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

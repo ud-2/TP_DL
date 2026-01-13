@@ -25,7 +25,7 @@ Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la
 # Cloner le dépôt
 git clone https://github.com/ud-2/TP_DL.git
 cd TP_DL
-checkout tp2
+checkout tp4
 
 python3 -m venv venv # Si aucun environnement virtuel n'est défini
 source venv/bin/activate

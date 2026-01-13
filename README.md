@@ -31,7 +31,13 @@ Ce projet constitue le cinquième Travail Pratique du module Deep Learning. Il e
 
 ### 1. Installation des dépendances
 ```bash
-pip install tensorflow mlflow matplotlib numpy
+git clone https://github.com/ud-2/TP_DL.git
+cd TP_DL
+checkout tp5
+
+python3 -m venv venv # Si aucun environnement virtuel n'est défini
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ### 2. Exécution des expériences

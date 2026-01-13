@@ -1,57 +1,31 @@
-# TP2 : Amélioration des Réseaux de Neurones Profonds
+# TP3 : Réseaux de Neurones Convolutifs (CNN) et Vision
 
-Ce projet est la suite du TP1 et se concentre sur les techniques avancées pour améliorer la performance et la robustesse des modèles de Deep Learning.
+Ce TP explore les architectures spécialisées dans le traitement d'images et les techniques modernes de vision par ordinateur.
 
-## Objectifs et Techniques Explorées
-
-*   **Diagnostic de Performance** : Analyse du biais et de la variance en utilisant des ensembles d'entraînement et de validation distincts.
-*   **Régularisation** : Mise en œuvre de la régularisation L2 et du Dropout pour combattre le surapprentissage.
-*   **Optimisation Avancée** : Comparaison des performances des optimiseurs Adam, RMSprop et SGD avec momentum.
-*   **Normalisation** : Utilisation de la Batch Normalization pour accélérer et stabiliser l'entraînement.
-
-Toutes les expériences sont suivies et comparées à l'aide de **MLflow**.
+## Objectifs du Projet
+*   **CNN Classique** : Construction d'un modèle pour le dataset **CIFAR-10** (images couleur 32x32).
+*   **ResNets** : Implémentation manuelle de **blocs résiduels** (connexions sautées/skip connections).
+*   **Applications Avancées** :
+    *   Concepts de **Segmentation** (U-Net) et **Détection d'objets** (Bounding Boxes).
+    *   **Neural Style Transfer** : Utilisation d'un modèle pré-entraîné (**VGG16**) pour extraire le style et le contenu d'images.
 
 ## Structure du Projet
-
-```
+```text
 .
-├── run_experiments.py  # Script principal pour lancer toutes les expériences
-├── requirements.txt    # Dépendances Python
-└── report_tp2.pdf      # Rapport résumant les concepts et les résultats
+├── cnn_classification.py   # Architecture CNN et ResNet pour CIFAR-10
+├── style_transfer_demo.py  # Script d'extraction de caractéristiques (VGG16)
+├── requirements.txt
+└── README.md
 ```
 
-## Comment l'utiliser ?
-
-### Prérequis
-
-*   Python 3.8+
-*   Avoir installé les dépendances listées dans `requirements.txt`.
-
-### 1. Installation des dépendances
-
-Clonez le dépôt et installez les bibliothèques nécessaires :
-
+## Utilisation
+Entraîner le classifieur d'images :
 ```bash
-git clone https://github.com/QByteSeeker/TP_DL.git
-cd TP_DL
-checkout tp2
-
-python3 -m venv venv # Si aucun environnement virtuel n'est défini
-source venv/bin/activate
-pip install -r requirements.txt
+python cnn_classification.py
 ```
 
-### 2. Lancer les Expériences
-
-Exécutez le script principal. Cela va entraîner séquentiellement les différents modèles et enregistrer les résultats dans MLflow.
-```bash
-python run_experiments.py
-```
-
-### 3. Visualiser les Résultats
-
-Pour comparer les performances des différents modèles, lancez l'interface utilisateur de MLflow dans votre terminal :
-```bash
-mlflow ui
-```
-Ouvrez votre navigateur à l'adresse `http://127.0.0.1:5000` pour analyser les courbes d'apprentissage, les métriques et les paramètres de chaque exécution.
+## Concepts abordés
+*   Opérations de Convolution et de Pooling.
+*   Problème de la disparition du gradient dans les réseaux profonds.
+*   Matrices de Gram pour la représentation du style.
+*   Transfer Learning (utilisation de poids ImageNet).

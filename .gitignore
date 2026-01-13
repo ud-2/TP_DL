@@ -18,3 +18,7 @@ ENV/
 # IDE
 .vscode/
 .idea/
+
+# personal
+t.sh
+t.txt

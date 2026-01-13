@@ -1,57 +1,64 @@
-# TP2 : Amélioration des Réseaux de Neurones Profonds
+# TP5 : Modélisation de Séquences et Mécanismes d'Attention
 
-Ce projet est la suite du TP1 et se concentre sur les techniques avancées pour améliorer la performance et la robustesse des modèles de Deep Learning.
+Ce projet constitue le cinquième Travail Pratique du module Deep Learning. Il explore l'évolution du traitement des séquences, des RNNs classiques aux mécanismes d'attention sophistiqués, et se conclut par un défi de recherche sur les modèles d'espace latent temporel.
 
-## Objectifs et Techniques Explorées
+## Objectifs du Projet
 
-*   **Diagnostic de Performance** : Analyse du biais et de la variance en utilisant des ensembles d'entraînement et de validation distincts.
-*   **Régularisation** : Mise en œuvre de la régularisation L2 et du Dropout pour combattre le surapprentissage.
-*   **Optimisation Avancée** : Comparaison des performances des optimiseurs Adam, RMSprop et SGD avec momentum.
-*   **Normalisation** : Utilisation de la Batch Normalization pour accélérer et stabiliser l'entraînement.
+1.  **Implémentation "from scratch"** d'une couche de *Scaled Dot-Product Attention*.
+2.  **Hybridation RNN-Attention** pour la prédiction de séries temporelles complexes.
+3.  **Défi de Recherche** : Amélioration de l'architecture TAP (*Temporal Latent Space Modeling*) pour garantir la cohérence à long terme via le modèle **H-TAP**.
+4.  **Rédaction Scientifique** : Production d'un article de 4 pages au format NeurIPS/ICLR.
 
-Toutes les expériences sont suivies et comparées à l'aide de **MLflow**.
+## Structure du Répertoire
 
-## Structure du Projet
-
-```
+```text
 .
-├── run_experiments.py  # Script principal pour lancer toutes les expériences
-├── requirements.txt    # Dépendances Python
-└── report_tp2.pdf      # Rapport résumant les concepts et les résultats
+├── sequence_attention.py       # Script principal (Entraînement, Comparaison, Visualisation)
+├── main.pdf                    # Article scientifique (4 pages) détaillant la recherche
+├── attention_viz.png           # Visualisation des poids d'attention (Partie 1 & 2)
+├── research_attention_plot.png  # Analyse de l'attention du modèle H-TAP (Partie 3)
+├── requirements.txt            # Dépendances du projet
+└── mlruns/                     # Dossier local de suivi MLflow (généré à l'exécution)
 ```
 
-## Comment l'utiliser ?
+## Installation et Utilisation
 
 ### Prérequis
-
 *   Python 3.8+
-*   Avoir installé les dépendances listées dans `requirements.txt`.
+*   TensorFlow 2.x
+*   MLflow
+*   Matplotlib & NumPy
 
 ### 1. Installation des dépendances
-
-Clonez le dépôt et installez les bibliothèques nécessaires :
-
 ```bash
-git clone https://github.com/QByteSeeker/TP_DL.git
-cd TP_DL
-checkout tp2
-
-python3 -m venv venv # Si aucun environnement virtuel n'est défini
-source venv/bin/activate
-pip install -r requirements.txt
+pip install tensorflow mlflow matplotlib numpy
 ```
 
-### 2. Lancer les Expériences
-
-Exécutez le script principal. Cela va entraîner séquentiellement les différents modèles et enregistrer les résultats dans MLflow.
+### 2. Exécution des expériences
+Le script `sequence_attention.py` exécute automatiquement la comparaison entre le modèle de base (Baseline TAP) et notre modèle amélioré (H-TAP) :
 ```bash
-python run_experiments.py
+python sequence_attention.py
 ```
 
-### 3. Visualiser les Résultats
-
-Pour comparer les performances des différents modèles, lancez l'interface utilisateur de MLflow dans votre terminal :
+### 3. Suivi MLOps avec MLflow
+Pour visualiser les performances comparatives (MSE, MAE) et la métrique personnalisée **Attention Span**, lancez l'interface MLflow :
 ```bash
 mlflow ui
 ```
-Ouvrez votre navigateur à l'adresse `http://127.0.0.1:5000` pour analyser les courbes d'apprentissage, les métriques et les paramètres de chaque exécution.
+Puis ouvrez `http://localhost:5000` dans votre navigateur.
+
+## Résumé de la Recherche (Modèle H-TAP)
+
+Le cœur de ce TP réside dans l'amélioration du modèle **TAP (ArXiv:2102.05095)**. 
+
+### Le Problème
+Les modèles d'espace latent classiques utilisent des transitions récurrentes (GRU/LSTM) qui souffrent de dérive temporelle. Sur de longues séquences (ex: Moving MNIST à 100 trames), les objets perdent leur cohérence structurelle.
+
+### Notre Solution : H-TAP
+Nous avons implémenté un bloc **Temporal Transformer** personnalisé qui remplace la transition récursive par une consultation globale de l'historique latent. 
+*   **Mécanisme** : Scaled Dot-Product Attention.
+*   **Avantage** : Accès direct aux trames clés du passé ($O(1)$ distance de gradient).
+*   **Résultat** : Une réduction de la MSE de près de 25% sur les horizons lointains et une stabilité visuelle accrue.
+
+## Visualisation
+Le projet génère des graphiques montrant la distribution des poids d'attention. Une attention "étalée" sur toute la séquence (Attention Span élevé) confirme que le modèle utilise effectivement les informations lointaines pour stabiliser ses prédictions actuelles.

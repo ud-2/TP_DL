@@ -1,38 +1,29 @@
-# TP2 : Amélioration des Réseaux de Neurones Profonds
+# TP4 : Vision Avancée, Segmentation et Données 3D
 
-Ce projet est la suite du TP1 et se concentre sur les techniques avancées pour améliorer la performance et la robustesse des modèles de Deep Learning.
+Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la segmentation sémantique d'images médicales à l'aide de l'architecture **U-Net** et l'introduction aux convolutions **3D** pour les données volumétriques.
 
-## Objectifs et Techniques Explorées
+## Objectifs du Projet
 
-*   **Diagnostic de Performance** : Analyse du biais et de la variance en utilisant des ensembles d'entraînement et de validation distincts.
-*   **Régularisation** : Mise en œuvre de la régularisation L2 et du Dropout pour combattre le surapprentissage.
-*   **Optimisation Avancée** : Comparaison des performances des optimiseurs Adam, RMSprop et SGD avec momentum.
-*   **Normalisation** : Utilisation de la Batch Normalization pour accélérer et stabiliser l'entraînement.
-
-Toutes les expériences sont suivies et comparées à l'aide de **MLflow**.
+*   **Segmentation Sémantique** : Implémentation d'un modèle U-Net complet (Encoder, Bottleneck, Decoder) avec connexions sautées (*skip connections*).
+*   **Métriques Spécifiques** : Implémentation et utilisation du coefficient de Dice et de l'IoU (Intersection over Union).
+*   **MLOps** : Suivi des expérimentations et des métriques personnalisées avec **MLflow**.
+*   **Données 3D** : Exploration des couches `Conv3D` pour le traitement de volumes (ex: scanners CT, IRM).
 
 ## Structure du Projet
 
-```
+```text
 .
-├── run_experiments.py  # Script principal pour lancer toutes les expériences
-├── requirements.txt    # Dépendances Python
-└── report_tp2.pdf      # Rapport résumant les concepts et les résultats
+├── unet_segmentation.py  # Script principal (U-Net, Métriques et Conv3D)
+├── requirements.txt      # Dépendances (tensorflow, mlflow, numpy)
+├── README.md             # Documentation du projet
+└── rapport_tp4.pdf       # Réponses théoriques et analyse des résultats
 ```
 
-## Comment l'utiliser ?
-
-### Prérequis
-
-*   Python 3.8+
-*   Avoir installé les dépendances listées dans `requirements.txt`.
-
-### 1. Installation des dépendances
-
-Clonez le dépôt et installez les bibliothèques nécessaires :
+## Installation
 
 ```bash
-git clone https://github.com/QByteSeeker/TP_DL.git
+# Cloner le dépôt
+git clone https://github.com/ud-2/TP_DL.git
 cd TP_DL
 checkout tp2
 
@@ -41,17 +32,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Lancer les Expériences
+## Utilisation
 
-Exécutez le script principal. Cela va entraîner séquentiellement les différents modèles et enregistrer les résultats dans MLflow.
+### 1. Entraînement et Suivi
+Le script simule l'entraînement d'un U-Net et d'un bloc Conv3D. Il enregistre l'architecture et les métriques dans MLflow :
 ```bash
-python run_experiments.py
+python unet_segmentation.py
 ```
 
-### 3. Visualiser les Résultats
-
-Pour comparer les performances des différents modèles, lancez l'interface utilisateur de MLflow dans votre terminal :
+### 2. Visualisation MLflow
+Pour comparer les architectures et voir les métriques personnalisées (Dice/IoU) :
 ```bash
 mlflow ui
 ```
-Ouvrez votre navigateur à l'adresse `http://127.0.0.1:5000` pour analyser les courbes d'apprentissage, les métriques et les paramètres de chaque exécution.
+Accédez ensuite à `http://localhost:5000`.
+
+## Concepts Clés abordés
+*   **Connexions sautées** : Concatenation des caractéristiques de l'encodeur vers le décodeur pour préserver les détails spatiaux.
+*   **Déséquilibre des classes** : Utilisation du Dice Loss pour gérer les cas où l'objet à segmenter est très petit par rapport au fond.
+*   **Convolutions 3D** : Extension des filtres à une troisième dimension (profondeur) pour capturer des motifs spatiaux volumétriques.

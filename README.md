@@ -1,71 +1,47 @@
 # TP2 : Amélioration des Réseaux de Neurones Profonds
 
-Ce projet constitue le second volet des travaux pratiques et se concentre sur les techniques d'ingénierie avancées visant à optimiser les performances des modèles, à accélérer leur convergence et à garantir leur robustesse face au surapprentissage.
+Ce second TP se concentre sur l'optimisation des performances et la lutte contre le surapprentissage (overfitting) via des techniques d'ingénierie avancées.
 
 ## Objectifs du Projet
-
-*   **Diagnostic de Performance** : Apprendre à identifier les problèmes de **haut biais** (underfitting) et de **haute variance** (overfitting).
-*   **Partitionnement des données** : Mise en place rigoureuse des ensembles d'entraînement, de validation (dev set) et de test.
-*   **Régularisation** : Implémentation des techniques de régularisation **L2 (Weight Decay)** et de **Dropout** pour stabiliser les poids du réseau.
-*   **Normalisation** : Intégration de la **Batch Normalization** pour stabiliser les activations internes et accélérer l'entraînement.
-*   **Optimisation Avancée** : Comparaison et évaluation des algorithmes d'optimisation (Momentum, RMSprop, et **Adam**).
-*   **Suivi d'Expériences** : Utilisation systématique de **MLflow** pour comparer les différentes configurations de modèles.
+*   **Diagnostic** : Analyse du Biais et de la Variance.
+*   **Régularisation** : Implémentation du **Dropout** et de la **Régularisation L2**.
+*   **Optimisation** : Comparaison des algorithmes **Adam**, **RMSprop** et **SGD**.
+*   **Accélération** : Utilisation de la **Batch Normalization**.
 
 ## Structure du Projet
-
 ```text
 .
-├── run_experiments.py  # Script principal automatisant les différentes expériences
-├── requirements.txt    # Dépendances (tensorflow, mlflow, numpy, matplotlib)
-├── report_tp2.pdf      # Rapport d'analyse théorique et pratique
-└── README.md           # Documentation du projet
+├── run_experiments.py  # Script automatisant 6 runs comparatifs
+├── requirements.txt    # Dépendances (TensorFlow, MLflow, NumPy)
+└── README.md           # Documentation
 ```
 
-## Prérequis
-
-*   Python 3.8 ou plus.
-*   Accès à une interface graphique (pour visualiser les courbes MLflow sur `localhost`).
-*   Installation de MLflow pour le tracking.
-
-## Installation
-
-1.  **Récupérer le projet :**
-    ```bash
-    git clone https://github.com/ud-2/TP_DL.git
-    cd TP_DL
-    git checkout tp2
-    ```
-
-2.  **Préparer l'environnement virtuel :**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # Sur Windows: venv\Scripts\activate
-    ```
-
-3.  **Installer les dépendances :**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Utilisation
+## Installation et Utilisation
 
 ### 1. Lancer la suite d'expériences
-Le script `run_experiments.py` exécute successivement plusieurs entraînements (modèle de base, modèle régularisé, comparaison des optimiseurs, et batch normalization) :
 ```bash
 python run_experiments.py
 ```
+Le script entraîne automatiquement plusieurs variantes du modèle (Base, Regularized, Batch Norm, et différents optimiseurs).
 
-### 2. Analyser les résultats dans MLflow
-Pour comparer les courbes d'apprentissage et les métriques finales de chaque configuration :
+### 2. Visualisation
 ```bash
 mlflow ui
 ```
-Ensuite, ouvrez votre navigateur à l'adresse [http://localhost:5000](http://localhost:5000).
+Accédez à `http://localhost:5000` pour comparer les performances.
 
-## Concepts Clés abordés
+## Résultats et Analyse (Exécution Réelle)
 
-*   **Biais vs Variance** : Compréhension de l'écart entre l'erreur d'entraînement et l'erreur de validation.
-*   **Régularisation L2** : Pénalisation des poids de grande magnitude pour simplifier le modèle.
-*   **Dropout** : Désactivation aléatoire de neurones pour forcer la redondance des caractéristiques apprises.
-*   **Batch Normalization** : Normalisation des entrées de chaque couche pour lutter contre le "Internal Covariate Shift".
-*   **Optimiseurs Adaptatifs** : Pourquoi Adam est souvent le choix par défaut grâce à la combinaison du momentum et du RMSprop.
+L'analyse de l'expérience via le graphique **Parallel Coordinates Plot** de MLflow (6 runs) montre :
+
+1.  **Supériorité des optimiseurs adaptatifs** : `Adam` et `RMSprop` atteignent une précision supérieure à **97%** beaucoup plus rapidement que le `SGD_with_momentum` (**95.8%**).
+2.  **Effet de la Régularisation** : L'ajout de `L2+Dropout` réduit légèrement la précision sur le set d'entraînement mais stabilise l'écart avec la validation, prouvant une meilleure capacité de généralisation.
+3.  **Batch Normalization** : L'activation de la `Batch Norm` a permis une convergence plus stable, même si elle nécessite un monitoring précis des activations pour éviter des oscillations en fin d'entraînement.
+
+### Conclusion Technique
+L'optimiseur **Adam** sans régularisation agressive reste le plus performant sur le dataset MNIST. Cependant, pour la robustesse, la combinaison **Adam + Dropout (0.2)** offre le meilleur compromis entre performance et généralisation.
+
+---
+**Auteurs** : VUIDE OUENDEU FRANCK JORDAN (21P018)  
+**Institution** : ENSPY 5GI  
+**Date** : Janvier 2026

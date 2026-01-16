@@ -1,65 +1,81 @@
-# Projet : Cycle de Vie des Modèles de Deep Learning
+# Projet : Cycle de Vie et Ingénierie des Modèles de Deep Learning
 
-Ce dépôt GitHub contient les travaux pratiques réalisés dans le cadre du cours sur l'ingénierie des modèles de Deep Learning. Il couvre le cycle de vie complet d'un modèle, depuis sa conception initiale jusqu'à son amélioration et son déploiement.
+Ce dépôt GitHub contient l'intégralité des travaux pratiques réalisés dans le cadre du cursus d'ingénierie en Deep Learning. Il documente le cycle de vie complet d'un modèle : depuis la conception mathématique initiale jusqu'au déploiement industriel, en passant par l'optimisation avancée, la vision par ordinateur et la modélisation de séquences.
 
-Le projet est divisé en deux parties, chacune résidant sur sa propre branche Git.
+Le projet est structuré de manière modulaire, chaque étape résidant sur sa propre branche Git pour une isolation parfaite des environnements et des rapports.
 
 ## Structure du Dépôt
 
-Pour isoler le travail de chaque TP, ce dépôt utilise des branches Git :
+Pour consulter le travail spécifique à chaque étape, utilisez les branches suivantes :
 
-* **`main`** : Cette branche, qui contient cette présentation générale du projet.
-* **`tp1`** : Contient tout le code et les rapports pour le premier TP, axé sur la création et le déploiement d'un modèle de base.
-* **`tp2`** : Contient le code et les rapports pour le second TP, qui se concentre sur l'amélioration et l'optimisation de ce modèle.
+*   **`main`** : Présentation générale et architecture du projet.
+*   **`tp1`** : Conception, MLOps de base et déploiement (MNIST, Flask, Docker).
+*   **`tp2`** : Ingénierie de la performance (Régularisation, Optimiseurs, Batch Norm).
+*   **`tp3`** : Vision par Ordinateur classique et résiduelle (CIFAR-10, ResNet, VGG16).
+*   **`tp4`** : Vision Avancée et Imagerie Médicale (U-Net, Métriques Spatiales, Conv3D).
+*   **`tp5`** : Modélisation de Séquences et Recherche (Attention, H-TAP, Transformers).
 
 ---
 
 ## Contenu des Travaux Pratiques
 
-### Branche `tp1` : De la Conception au Déploiement d'un Modèle
+### 1. [Branche tp1] : De la Conception au Déploiement
+Mise en place d'un pipeline complet de production :
+*   **Modélisation** : Réseau dense sur MNIST avec une précision de **97.83%**.
+*   **Serving** : Création d'une API REST avec **Flask**.
+*   **Industrialisation** : Conteneurisation de l'application via **Docker**.
 
-Cette première partie aborde les étapes fondamentales pour mettre en production un modèle de Deep Learning.
+### 2. [Branche tp2] : Amélioration et Robustesse
+Techniques avancées pour stabiliser l'apprentissage et éviter le surapprentissage :
+*   **Optimisation** : Comparaison comparative d'**Adam**, **RMSprop** et **SGD**.
+*   **Régularisation** : Implémentation du Dropout et de la régularisation L2.
+*   **Normalisation** : Utilisation de la **Batch Normalization** pour accélérer la convergence.
 
-*   **Construction** d'un réseau de neurones avec Keras pour la classification sur MNIST.
-*   **Versionnement** du code avec Git et GitHub.
-*   **Suivi des expérimentations** avec MLflow.
-*   **Création d'une API web** avec Flask pour servir les prédictions du modèle.
-*   **Conteneurisation** de l'application avec Docker pour un déploiement reproductible.
+### 3. [Branche tp3] : CNN et Architectures Résiduelles
+Transition vers le traitement d'images couleur et les réseaux profonds :
+*   **CNN** : Classification sur CIFAR-10 (Précision : **69.74%**).
+*   **ResNet** : Implémentation manuelle de blocs résiduels (*skip connections*).
+*   **Feature Extraction** : Utilisation de **VGG16** pour le transfert de style neuronal.
 
-### Branche `tp2` : Amélioration des Réseaux de Neurones Profonds
+### 4. [Branche tp4] : Vision Avancée et Données 3D
+Tâches complexes de segmentation et manipulation de volumes :
+*   **U-Net** : Architecture Encodeur-Décodeur pour la segmentation sémantique.
+*   **Métriques** : Implémentation du coefficient de **Dice** et de l'**IoU**.
+*   **Données 3D** : Utilisation de `Conv3D` pour le traitement de données volumétriques.
 
-Cette seconde partie explore les techniques avancées pour améliorer la performance et la robustesse du modèle initial.
-
-*   **Analyse de la performance** du modèle (biais et variance).
-*   **Application de techniques de régularisation** (L2, Dropout) pour lutter contre le surapprentissage.
-*   **Comparaison d'optimiseurs avancés** (Adam, RMSprop, SGD avec momentum).
-*   **Utilisation de la Batch Normalization** pour accélérer et stabiliser l'entraînement.
+### 5. [Branche tp5] : Séquences et Mécanismes d'Attention
+Modélisation temporelle et projet de recherche final :
+*   **Attention** : Implémentation "from scratch" de la *Scaled Dot-Product Attention*.
+*   **Recherche H-TAP** : Amélioration du modèle TAP (Temporal Latent Space) pour la cohérence vidéo à long terme.
+*   **Visualisation** : Analyse qualitative des poids d'attention.
 
 ---
 
 ## Comment Accéder au Code
 
-Pour consulter le code de chaque TP, utilisez les commandes Git suivantes depuis votre terminal après avoir cloné le dépôt :
+Après avoir cloné le dépôt, vous pouvez naviguer entre les TPs :
 
 ```bash
-# Pour voir le code du TP1
-git checkout tp1
-```
+# Cloner le dépôt
+git clone https://github.com/ud-2/TP_DL.git
+cd TP_DL
 
-```bash
-# Pour voir le code du TP2
-git checkout tp2
-```
+# Accéder au TP souhaité (ex: TP4)
+git checkout tp4
 
-```bash
-# Pour revenir à cette page d'accueil
+# Pour revenir à l'accueil
 git checkout main
 ```
 
-## Technologies Principales
+## 🛠 Technologies Utilisées
 
-*   TensorFlow / Keras
-*   MLflow
-*   Flask
-*   Docker
-*   Git / GitHub
+*   **Frameworks** : TensorFlow, Keras, Flask.
+*   **MLOps** : MLflow (Tracking & Artifacts).
+*   **Ops** : Docker, Git.
+*   **Analyse** : NumPy, Matplotlib, OpenCV, PIL.
+*   **Rédaction** : LaTeX (Overleaf).
+
+---
+**Réalisation** : VUIDE OUENDEU FRANCK JORDAN (21P018)  
+**Institution** : École Nationale Supérieure Polytechnique de Yaoundé (**ENSPY**)  
+**Promotion** : 5ème Année Génie Informatique (5GI)

@@ -17,7 +17,6 @@ def predict():
 
     image_data = np.array(data['image'])
     
-    # Assurez-vous que l'image est au bon format (1, 784) et normalisée
     try:
         image_data = image_data.reshape(1, 784)
         image_data = image_data.astype("float32") / 255.0

@@ -4,7 +4,6 @@ import numpy as np
 import mlflow
 import mlflow.tensorflow
 
-# Variables pour les paramètres
 EPOCHS = 5
 BATCH_SIZE = 128
 DROPOUT_RATE = 0.2
@@ -27,7 +26,7 @@ with mlflow.start_run():
     x_train = x_train.reshape(60000, 784)
     x_test = x_test.reshape(10000, 784)
 
-    # Construction du modèle (en utilisant les variables définies)
+    # Construction du modèle
     model = keras.Sequential([
         keras.layers.Dense(512, activation='relu', input_shape=(784,)),
         keras.layers.Dropout(DROPOUT_RATE),
@@ -57,8 +56,6 @@ with mlflow.start_run():
     # Sauvegarde du modèle (pour l'API Flask)
     model.save("mnist_model.h5")
     print("Modèle sauvegardé sous mnist_model.h5")
-
-    # --- Enregistrement dans MLflow (Exercice 3) ---
 
     # Enregistrement des métriques
     mlflow.log_metric("test_accuracy", test_acc)

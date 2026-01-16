@@ -3,9 +3,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import numpy as np
 
-# ==========================================
 # 1. Préparation des données CIFAR-10
-# ==========================================
 def load_data():
     print("Chargement de CIFAR-10...")
     (x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
@@ -23,9 +21,7 @@ def load_data():
     
     return (x_train, y_train), (x_test, y_test), INPUT_SHAPE, NUM_CLASSES
 
-# ==========================================
 # 2. Exercice 1 : Architecture CNN Classique
-# ==========================================
 def build_basic_cnn(input_shape, num_classes):
     model = keras.Sequential([
         # Bloc 1
@@ -43,9 +39,7 @@ def build_basic_cnn(input_shape, num_classes):
     ])
     return model
 
-# ==========================================
 # 3. Exercice 2 : Blocs Résiduels (ResNet)
-# ==========================================
 def residual_block(x, filters, kernel_size=(3, 3), stride=1):
     shortcut = x
     
@@ -53,7 +47,6 @@ def residual_block(x, filters, kernel_size=(3, 3), stride=1):
     y = layers.Conv2D(filters, kernel_size, strides=stride, padding='same', activation='relu')(x)
     y = layers.Conv2D(filters, kernel_size, padding='same')(y)
     
-    # Chemin de l'identité (Skip Connection)
     # Si la dimension change (stride > 1), on adapte le raccourci avec une conv 1x1
     if stride > 1 or shortcut.shape[-1] != filters:
         shortcut = layers.Conv2D(filters, (1, 1), strides=stride, padding='same')(shortcut)
@@ -76,9 +69,7 @@ def build_resnet_mini(input_shape, num_classes):
     
     return keras.Model(inputs, outputs)
 
-# ==========================================
 # 4. Exercice 4 : Neural Style Transfer (Extracteur)
-# ==========================================
 def create_style_extractor():
     # Chargement de VGG16 pré-entraîné
     vgg = keras.applications.VGG16(include_top=False, weights='imagenet')

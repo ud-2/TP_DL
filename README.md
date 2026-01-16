@@ -2,14 +2,14 @@
 
 Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la segmentation sémantique d'images médicales à l'aide de l'architecture **U-Net** et l'introduction aux convolutions **3D** pour le traitement de données volumétriques.
 
-## 🎯 Objectifs du Projet
+## Objectifs du Projet
 
 *   **Segmentation Sémantique** : Implémentation d'un modèle U-Net complet incluant les chemins de contraction (Encoder) et d'expansion (Decoder) liés par des connexions sautées (*skip connections*).
 *   **Métriques Spécifiques** : Implémentation "custom" du **Coefficient de Dice** et de l'**IoU** (Intersection over Union) pour évaluer la précision spatiale.
 *   **Ingénierie MLOps** : Suivi des métriques et archivage automatique de la structure du modèle (format JSON) via **MLflow**.
 *   **Vision 3D** : Construction d'un bloc de convolution volumétrique (`Conv3D`) adapté aux scanners CT ou IRM.
 
-## 📂 Structure du Répertoire
+## Structure du Répertoire
 
 ```text
 .
@@ -19,7 +19,7 @@ Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la
 └── mlruns/                   # Dossier de suivi des expériences MLflow
 ```
 
-## 🚀 Installation et Utilisation
+## Installation et Utilisation
 
 ### 1. Installation
 ```bash
@@ -37,7 +37,7 @@ Le script construit l'architecture U-Net, définit les métriques et lance un tr
 python unet_segmentation.py
 ```
 
-## 🔬 Résultats et Analyse Technique
+## Résultats et Analyse Technique
 
 ### Analyse de l'Architecture (via model_architecture.json)
 L'exécution a généré avec succès un artefact JSON décrivant le modèle 3D. Les points clés confirmés sont :
@@ -52,7 +52,7 @@ Le modèle intègre des fonctions de perte robustes au déséquilibre de classes
 *   **Dice Coefficient** : Mesure la similarité entre les masques (atteignant **0.85** dans nos tests simulés).
 *   **IoU** : Évalue le chevauchement précis entre la prédiction et la vérité terrain.
 
-## 📊 Suivi MLOps avec MLflow
+## Suivi MLOps avec MLflow
 Pour visualiser l'architecture sauvegardée et les paramètres d'entraînement :
 1. Lancez l'interface : `mlflow ui`
 2. Accédez à l'expérience : `3D_Volumetric_Analysis`

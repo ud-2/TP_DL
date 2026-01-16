@@ -1,84 +1,54 @@
 # TP1 : De la conception au déploiement de modèles de Deep Learning
 
-Ce premier projet de Travaux Pratiques pose les jalons du cycle de vie d'un modèle de Deep Learning (DL Engineering). L'objectif est de passer de la théorie (réseaux de neurones) à la pratique industrielle en incluant le suivi, l'empaquetage et le déploiement.
+Ce projet marque le début du cycle d'ingénierie du Deep Learning. Il couvre l'ensemble du pipeline : de l'entraînement d'un modèle de classification de chiffres (**MNIST**) à sa mise en production via une **API REST** conteneurisée.
 
 ## Objectifs du Projet
-
-*   **Fondations du Deep Learning** : Construction, entraînement et évaluation d'un réseau de neurones *fully-connected* (dense) sur le jeu de données **MNIST**.
-*   **Versionnement & Collaboration** : Apprentissage des bonnes pratiques avec **Git** et **GitHub/GitLab**.
-*   **Suivi d'Expériences** : Introduction à **MLflow** pour enregistrer les paramètres (époques, taux de dropout) et les métriques de performance.
-*   **Déploiement (Serving)** : Création d'une API Web avec le framework **Flask** pour permettre des prédictions en temps réel via des requêtes HTTP.
-*   **Conteneurisation** : Utilisation de **Docker** pour encapsuler l'application et ses dépendances dans un conteneur isolé et portable.
+*   **Modélisation** : Construction d'un réseau dense (Fully-Connected) avec Keras.
+*   **Tracking MLOps** : Utilisation de **MLflow** pour le suivi des métriques et la sauvegarde du modèle.
+*   **Serving** : Création d'un service de prédiction avec **Flask**.
+*   **Industrialisation** : Conteneurisation de l'application avec **Docker**.
 
 ## Structure du Projet
-
 ```text
 .
-├── train_model.py      # Script d'entraînement, évaluation et suivi MLflow
-├── app.py              # Application Flask servant le modèle via une API REST
-├── requirements.txt    # Liste des dépendances (tensorflow, flask, mlflow, numpy)
-├── Dockerfile          # Fichier de configuration pour l'image Docker
-├── mnist_model.h5      # Modèle entraîné sauvegardé (généré après entraînement)
-└── README.md           # Documentation du projet
+├── train_model.py      # Entraînement et suivi MLflow
+├── app.py              # API Flask pour les prédictions
+├── mnist_model.h5      # Modèle entraîné (généré)
+├── requirements.txt    # Dépendances (TensorFlow, Flask, MLflow)
+├── Dockerfile          # Configuration du conteneur
+└── README.md           # Documentation
 ```
 
-## Prérequis
+## Installation et Utilisation
 
-*   Python 3.8 ou plus.
-*   **Git** installé sur votre machine.
-*   **Docker** (nécessaire pour la partie 2.3 sur la conteneurisation).
-*   Un compte GitHub ou GitLab.
+### Prérequis
+*   Python 3.8+
+*   Docker (pour le déploiement)
+*   Environnement global `ai_env` actif
 
-## Installation
-
-1.  **Cloner le dépôt et se placer sur la branche correspondante :**
-    ```bash
-    git clone https://github.com/ud-2/TP_DL.git
-    cd TP_DL
-    git checkout tp1
-    ```
-
-2.  **Créer et activer un environnement virtuel :**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # Sur Windows: venv\Scripts\activate
-    ```
-
-3.  **Installer les dépendances :**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Utilisation
-
-### 1. Entraînement et suivi MLflow
-Exécutez le script pour entraîner le modèle et enregistrer les données dans MLflow :
+### 1. Entraînement
 ```bash
 python train_model.py
 ```
-Pour visualiser l'interface de suivi : `mlflow ui` puis rendez-vous sur `http://localhost:5000`.
 
-### 2. Lancement de l'API Flask (Local)
-Pour tester l'API localement sans Docker :
+### 2. Test de l'API (Local)
+Lancer le serveur : `python app.py`.
+Tester avec un vecteur de 784 zéros :
 ```bash
-python app.py
+python3 -c "import json; print(json.dumps({'image': [0]*784}))" | curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d @-
 ```
-L'API sera disponible sur `http://localhost:5000/predict`.
 
-### 3. Déploiement avec Docker
-1.  **Construire l'image :**
-    ```bash
-    docker build -t mnist-api .
-    ```
-2.  **Lancer le conteneur :**
-    ```bash
-    docker run -p 5000:5000 mnist-api
-    ```
+## Résultats Obtenus (Exécution Réelle)
 
-## Concepts Clés abordés
+### Performance du Modèle
+*   **Précision sur les données de test** : **97.83%**
+*   **Loss de test** : 0.0677
+*   **Suivi MLflow** : Les paramètres (epochs=5, batch_size=128) et les métriques ont été enregistrés avec succès dans l'interface `mlflow ui`.
 
-*   **Descente de Gradient Stochastique (SGD)** : Pourquoi elle est préférée au gradient classique pour les grands jeux de données.
-*   **Rétropropagation du gradient** : Mécanisme de mise à jour des poids du réseau.
-*   **Vectorisation & Batching** : Optimisation des calculs matriciels.
-*   **Cycle de vie (Pipeline)** : Développement $\to$ Tracking $\to$ Packaging $\to$ Production.
-*   **Isolation logicielle** : Intérêt de Docker pour éviter les conflits de versions entre environnements.
+### Validation de l'API
+L'API a été validée avec succès. Pour une entrée neutre (zéros), le modèle a renvoyé une prédiction de classe **5** avec la distribution des probabilités associée, confirmant que le serveur Flask charge et utilise correctement le fichier `.h5`.
+
+---
+**Auteurs** : VUIDE OUENDEU FRANCK JORDAN (21P018)  
+**Institution** : ENSPY 5GI  
+**Date** : Janvier 2026

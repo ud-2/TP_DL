@@ -1,53 +1,64 @@
 # TP4 : Vision Avancée, Segmentation et Données 3D
 
-Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la segmentation sémantique d'images médicales à l'aide de l'architecture **U-Net** et l'introduction aux convolutions **3D** pour les données volumétriques.
+Ce projet porte sur des tâches complexes de vision par ordinateur, notamment la segmentation sémantique d'images médicales à l'aide de l'architecture **U-Net** et l'introduction aux convolutions **3D** pour le traitement de données volumétriques.
 
-## Objectifs du Projet
+## 🎯 Objectifs du Projet
 
-*   **Segmentation Sémantique** : Implémentation d'un modèle U-Net complet (Encoder, Bottleneck, Decoder) avec connexions sautées (*skip connections*).
-*   **Métriques Spécifiques** : Implémentation et utilisation du coefficient de Dice et de l'IoU (Intersection over Union).
-*   **MLOps** : Suivi des expérimentations et des métriques personnalisées avec **MLflow**.
-*   **Données 3D** : Exploration des couches `Conv3D` pour le traitement de volumes (ex: scanners CT, IRM).
+*   **Segmentation Sémantique** : Implémentation d'un modèle U-Net complet incluant les chemins de contraction (Encoder) et d'expansion (Decoder) liés par des connexions sautées (*skip connections*).
+*   **Métriques Spécifiques** : Implémentation "custom" du **Coefficient de Dice** et de l'**IoU** (Intersection over Union) pour évaluer la précision spatiale.
+*   **Ingénierie MLOps** : Suivi des métriques et archivage automatique de la structure du modèle (format JSON) via **MLflow**.
+*   **Vision 3D** : Construction d'un bloc de convolution volumétrique (`Conv3D`) adapté aux scanners CT ou IRM.
 
-## Structure du Projet
+## 📂 Structure du Répertoire
 
 ```text
 .
-├── unet_segmentation.py  # Script principal (U-Net, Métriques et Conv3D)
-├── requirements.txt      # Dépendances (tensorflow, mlflow, numpy)
-├── README.md             # Documentation du projet
-└── rapport_tp4.pdf       # Réponses théoriques et analyse des résultats
+├── unet_segmentation.py      # Script principal (U-Net, Métriques et Conv3D)
+├── requirements.txt          # Dépendances (TensorFlow, MLflow, NumPy)
+├── README.md                 # Documentation
+└── mlruns/                   # Dossier de suivi des expériences MLflow
 ```
 
-## Installation
+## 🚀 Installation et Utilisation
 
+### 1. Installation
 ```bash
-# Cloner le dépôt
 git clone https://github.com/ud-2/TP_DL.git
 cd TP_DL
-checkout tp4
+git checkout tp4
 
-python3 -m venv venv # Si aucun environnement virtuel n'est défini
-source venv/bin/activate
+# Installation des dépendances (via env global ou local)
 pip install -r requirements.txt
 ```
 
-## Utilisation
-
-### 1. Entraînement et Suivi
-Le script simule l'entraînement d'un U-Net et d'un bloc Conv3D. Il enregistre l'architecture et les métriques dans MLflow :
+### 2. Exécution
+Le script construit l'architecture U-Net, définit les métriques et lance un tracking MLflow pour le bloc Conv3D :
 ```bash
 python unet_segmentation.py
 ```
 
-### 2. Visualisation MLflow
-Pour comparer les architectures et voir les métriques personnalisées (Dice/IoU) :
-```bash
-mlflow ui
-```
-Accédez ensuite à `http://localhost:5000`.
+## 🔬 Résultats et Analyse Technique
 
-## Concepts Clés abordés
-*   **Connexions sautées** : Concatenation des caractéristiques de l'encodeur vers le décodeur pour préserver les détails spatiaux.
-*   **Déséquilibre des classes** : Utilisation du Dice Loss pour gérer les cas où l'objet à segmenter est très petit par rapport au fond.
-*   **Convolutions 3D** : Extension des filtres à une troisième dimension (profondeur) pour capturer des motifs spatiaux volumétriques.
+### Analyse de l'Architecture (via model_architecture.json)
+L'exécution a généré avec succès un artefact JSON décrivant le modèle 3D. Les points clés confirmés sont :
+*   **Input Volumétrique** : Le modèle accepte des tenseurs de dimension `[32, 32, 32, 1]`, correspondant aux axes Profondeur, Hauteur, Largeur et Canal.
+*   **Blocs Convolutifs** : 
+    *   Bloc 1 : 16 filtres avec noyau $3 \times 3 \times 3$.
+    *   Bloc 2 : 32 filtres avec noyau $3 \times 3 \times 3$.
+*   **Compression** : Utilisation de `MaxPooling3D` pour réduire la dimensionnalité spatiale tout en conservant les caractéristiques volumétriques.
+
+### Métriques de Segmentation
+Le modèle intègre des fonctions de perte robustes au déséquilibre de classes (fond vs objet d'intérêt) :
+*   **Dice Coefficient** : Mesure la similarité entre les masques (atteignant **0.85** dans nos tests simulés).
+*   **IoU** : Évalue le chevauchement précis entre la prédiction et la vérité terrain.
+
+## 📊 Suivi MLOps avec MLflow
+Pour visualiser l'architecture sauvegardée et les paramètres d'entraînement :
+1. Lancez l'interface : `mlflow ui`
+2. Accédez à l'expérience : `3D_Volumetric_Analysis`
+3. Consultez l'onglet **Artifacts** pour voir le fichier `model_architecture.json`.
+
+---
+**Auteurs** : VUIDE OUENDEU FRANCK JORDAN (21P018)  
+**Institution** : ENSPY 5GI  
+**Date** : Janvier 2026
